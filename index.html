@@ -19,11 +19,15 @@
 html,body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 80% 20%,rgba(212,168,67,0.04) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(62,207,176,0.03) 0%,transparent 50%);pointer-events:none;z-index:0}
 .app{position:relative;z-index:1;max-width:480px;margin:0 auto;min-height:100vh}
-.header{padding:20px 20px 0;display:flex;align-items:flex-start;justify-content:space-between}
+.header{padding:20px 20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.header-left{flex:1;min-width:0}
+.header-right{display:flex;align-items:center;gap:8px}
 .eyebrow{font-family:monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
 .title{font-size:22px;font-weight:800;line-height:1.1}
 .title span{color:var(--gold)}
-.badge{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:4px 12px;font-family:monospace;font-size:11px;color:var(--gold);margin-top:4px;display:inline-block}
+.badge{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:4px 12px;font-family:monospace;font-size:11px;color:var(--gold);display:inline-block}
+.icon-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit}
+.icon-btn:hover{border-color:var(--gold-border);color:var(--gold)}
 .sync-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;font-family:monospace;font-size:10px}
 .sync-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--dim)}
 .sync-dot.ok{background:var(--teal)}
@@ -37,6 +41,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 .page{display:none;padding:16px 20px 100px}
 .page.active{display:block}
+.input-selector{display:flex;gap:6px;margin-bottom:14px}
+.input-btn{flex:1;padding:10px 4px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:12px;font-family:inherit;cursor:pointer;transition:all .15s}
+.input-btn:hover{border-color:var(--border2);background:var(--surface3)}
+.input-btn.active{border-color:var(--gold-border);background:var(--gold-dim);color:var(--gold)}
+.linkedin-input-area{display:none;margin-bottom:10px}
+.linkedin-input-area.vis{display:block}
+.image-input-area{display:block}
+.image-input-area.hidden{display:none}
 .scan-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .scan-zone{border:2px dashed var(--gold-border);border-radius:16px;padding:22px 12px;text-align:center;background:var(--gold-dim);cursor:pointer;position:relative;overflow:hidden;transition:background .2s}
 .scan-zone:hover{background:rgba(212,168,67,.15)}
@@ -58,7 +70,7 @@ textarea.finput{resize:vertical;min-height:52px}
 .source-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .src-btn{font-family:monospace;font-size:10px;padding:4px 10px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
 .src-btn.active{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold)}
-.btn-main{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s,transform .1s}
+.btn-main{width:100%;background:var(--gold);color:var(--bg);border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s,transform .1s;font-family:inherit}
 .btn-main:hover{background:var(--gold2)}
 .btn-main:active{transform:scale(.98)}
 .btn-main:disabled{background:var(--dim);color:var(--muted);cursor:not-allowed}
@@ -78,6 +90,17 @@ textarea.finput{resize:vertical;min-height:52px}
 .ext-card{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:14px;margin:12px 0;display:none}
 .ext-card.vis{display:block}
 .ext-label{font-family:monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.section-label{font-family:monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block}
+.ctx-divider{height:1px;background:var(--border2);margin:14px 0}
+.linkedin-field{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;transition:border-color .2s}
+.linkedin-field:focus-within{border-color:var(--gold-border)}
+.linkedin-field .link-icon{color:var(--blue);font-size:13px}
+.linkedin-field input{flex:1;background:none;border:none;color:var(--blue);font-size:13px;font-family:inherit;outline:none;min-width:0}
+.linkedin-field input::placeholder{color:var(--dim)}
+.custom-tag{font-family:monospace;font-size:10px;padding:4px 10px;border-radius:14px;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(62,207,176,.25);display:inline-flex;align-items:center;gap:4px}
+.custom-tag .remove{cursor:pointer;opacity:.6;font-size:12px;line-height:1}
+.custom-tag .remove:hover{opacity:1}
+.add-tag-btn{font-family:monospace;font-size:10px;padding:4px 10px;border-radius:14px;background:transparent;color:var(--teal);border:1px dashed rgba(62,207,176,.5);cursor:pointer;font-family:monospace}
 .analysis-box{background:var(--surface2);border:1px solid var(--gold-border);border-radius:12px;padding:14px;margin-top:12px;display:none}
 .analysis-box.vis{display:block}
 .analysis-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -105,8 +128,10 @@ textarea.finput{resize:vertical;min-height:52px}
 .c-score{font-family:monospace;font-size:13px;font-weight:500}
 .c-co{font-size:13px;font-weight:600}
 .c-role{font-size:12px;color:var(--muted);margin-bottom:6px}
+.c-linkedin{font-size:11px;color:var(--blue);margin-top:4px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .c-meta{display:flex;flex-wrap:wrap;gap:4px}
 .cmeta{font-family:monospace;font-size:9px;padding:2px 7px;border-radius:3px;background:var(--surface3);color:var(--muted)}
+.cmeta.source{background:var(--gold-dim);color:var(--gold)}
 .c-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
 .c-detail.open{display:block}
 .c-detail p{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:3px}
@@ -129,16 +154,36 @@ textarea.finput{resize:vertical;min-height:52px}
 .dots span:nth-child(3){animation-delay:.4s}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:10px 20px;font-size:13px;color:var(--text);font-family:monospace;z-index:999;display:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4)}
 .toast.vis{display:block}
+.settings-overlay{display:none;position:fixed;inset:0;background:rgba(8,10,15,.92);z-index:500;justify-content:center;align-items:flex-end}
+.settings-overlay.vis{display:flex}
+.settings-panel{width:100%;max-width:480px;max-height:88vh;overflow-y:auto;background:var(--surface);border-radius:16px 16px 0 0;padding:20px;border-top:1px solid var(--border2);animation:slideUp .25s ease-out}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.settings-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.settings-header h2{font-size:16px;font-weight:700;color:var(--gold)}
+.close-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.settings-section{margin-bottom:20px}
+.settings-section-title{font-family:monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.met-at-editor{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.met-at-item{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:14px;background:var(--gold-dim);color:var(--gold);font-size:11px;font-family:monospace;border:1px solid var(--gold-border)}
+.met-at-item .remove{cursor:pointer;opacity:.6;font-size:13px;line-height:1}
+.met-at-item .remove:hover{opacity:1}
+.add-met-at{display:flex;gap:6px}
+.add-met-at input{flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;color:var(--text);font-size:12px;font-family:inherit;outline:none}
+.add-met-at input:focus{border-color:var(--gold-border)}
+.add-met-at button{padding:8px 14px;border-radius:8px;border:1px solid rgba(62,207,176,.3);background:var(--teal-dim);color:var(--teal);font-size:12px;font-family:inherit;cursor:pointer;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div>
+    <div class="header-left">
       <div class="eyebrow">BD Intelligence</div>
       <div class="title">Contact <span>Radar</span></div>
     </div>
-    <div><div class="badge" id="totalBadge">0 contacts</div></div>
+    <div class="header-right">
+      <div class="badge" id="totalBadge">0 contacts</div>
+      <button class="icon-btn" id="settingsBtn" onclick="toggleSettings()" title="Settings">⚙</button>
+    </div>
   </div>
   <div class="sync-bar">
     <div class="sync-dot ok" id="syncDot"></div>
@@ -152,62 +197,77 @@ textarea.finput{resize:vertical;min-height:52px}
 
   <!-- SCAN TAB -->
   <div class="page active" id="tab-scan">
-    <div class="scan-btns" id="scanZone">
-      <div class="scan-zone">
-        <input type="file" accept="image/*" capture="environment" onchange="handleImage(event)">
-        <span class="scan-icon">📷</span>
-        <div class="scan-title">Take Photo</div>
-        <div class="scan-sub">Open camera</div>
+    <!-- Input source selector (Decision 1) -->
+    <div class="input-selector">
+      <button class="input-btn active" id="mode-camera" onclick="setInputMode('camera')">📷 Camera</button>
+      <button class="input-btn" id="mode-gallery" onclick="setInputMode('gallery')">🖼 Gallery</button>
+      <button class="input-btn" id="mode-linkedin" onclick="setInputMode('linkedin')">🔗 URL</button>
+    </div>
+
+    <!-- Camera / Gallery input area -->
+    <div class="image-input-area" id="imageInputArea">
+      <div class="scan-btns" id="scanZone">
+        <div class="scan-zone" id="cameraZone">
+          <input type="file" accept="image/*" capture="environment" onchange="handleImage(event,'camera')">
+          <span class="scan-icon">📷</span>
+          <div class="scan-title">Take Photo</div>
+          <div class="scan-sub">Open camera</div>
+        </div>
+        <div class="scan-zone" id="galleryZone">
+          <input type="file" accept="image/*" onchange="handleImage(event,'gallery')">
+          <span class="scan-icon">🖼️</span>
+          <div class="scan-title">From Gallery</div>
+          <div class="scan-sub">Pick from photos</div>
+        </div>
       </div>
-      <div class="scan-zone">
-        <input type="file" accept="image/*" onchange="handleImage(event)">
-        <span class="scan-icon">🖼️</span>
-        <div class="scan-title">From Gallery</div>
-        <div class="scan-sub">Pick from photos</div>
+      <div class="preview-wrap" id="previewWrap">
+        <img id="previewImg" class="preview-img" src="" alt="">
+        <button class="clear-btn" onclick="clearScan()">✕ Clear</button>
       </div>
+      <button class="btn-main" id="scanBtn" onclick="processCard()">
+        <span id="scanBtnTxt">✦ Scan &amp; Analyse</span>
+      </button>
     </div>
-    <div class="preview-wrap" id="previewWrap">
-      <img id="previewImg" class="preview-img" src="" alt="">
-      <button class="clear-btn" onclick="clearScan()">✕ Clear</button>
-    </div>
-    <div class="fgroup">
-      <label class="flabel">Met at</label>
-      <div class="source-row">
-        <button class="src-btn active" onclick="setSource(this,'TFB Event')">TFB Event</button>
-        <button class="src-btn" onclick="setSource(this,'FM Summit')">FM Summit</button>
-        <button class="src-btn" onclick="setSource(this,'LinkedIn')">LinkedIn</button>
-        <button class="src-btn" onclick="setSource(this,'Referral')">Referral</button>
-        <button class="src-btn" onclick="setSource(this,'Other')">Other</button>
+
+    <!-- LinkedIn / URL input area (Decision 4: accept any URL) -->
+    <div class="linkedin-input-area" id="linkedinInputArea">
+      <div class="fgroup">
+        <label class="flabel">Profile or Website URL</label>
+        <input class="finput" id="urlInput" type="url" placeholder="https://linkedin.com/in/jane-doe or any URL">
       </div>
+      <button class="btn-main" id="urlBtn" onclick="processUrl()">
+        <span id="urlBtnTxt">✦ Analyse Contact</span>
+      </button>
     </div>
-    <div class="fgroup">
-      <label class="flabel">Quick notes (optional)</label>
-      <textarea id="f_notes" class="finput" placeholder="e.g. interested in Pelican, uses Brokeree, follow up next week..."></textarea>
-    </div>
-    <button class="btn-main" id="scanBtn" onclick="processCard()">
-      <span id="scanBtnTxt">✦ Scan &amp; Analyse</span>
-    </button>
+
     <div class="progress-row" id="progressRow" style="display:none">
       <div class="pstep" id="ps1"></div>
       <div class="pstep" id="ps2"></div>
       <div class="pstep" id="ps3"></div>
     </div>
     <div class="status-txt" id="statusTxt"></div>
-    <div class="divider"><span>or enter manually</span></div>
-    <div class="manual-toggle" onclick="toggleManual()">▸ Type details instead</div>
-    <div id="manualFields" style="display:none">
-      <div class="grid2">
-        <div><label class="flabel">First Name *</label><input class="finput" id="m_fname" placeholder="Argyri"></div>
-        <div><label class="flabel">Last Name</label><input class="finput" id="m_lname" placeholder="Manglari"></div>
-        <div class="full"><label class="flabel">Company *</label><input class="finput" id="m_company" placeholder="Tools for Brokers"></div>
-        <div class="full"><label class="flabel">Job Title *</label><input class="finput" id="m_title" placeholder="Head of APAC BD"></div>
-        <div><label class="flabel">Email</label><input class="finput" id="m_email" placeholder="a@tfb.com"></div>
-        <div><label class="flabel">Phone</label><input class="finput" id="m_phone" placeholder="+65..."></div>
+
+    <!-- Manual entry (image modes only) -->
+    <div id="manualSection">
+      <div class="divider"><span>or enter manually</span></div>
+      <div class="manual-toggle" onclick="toggleManual()">▸ Type details instead</div>
+      <div id="manualFields" style="display:none">
+        <div class="grid2">
+          <div><label class="flabel">First Name *</label><input class="finput" id="m_fname" placeholder="Argyri"></div>
+          <div><label class="flabel">Last Name</label><input class="finput" id="m_lname" placeholder="Manglari"></div>
+          <div class="full"><label class="flabel">Company *</label><input class="finput" id="m_company" placeholder="Tools for Brokers"></div>
+          <div class="full"><label class="flabel">Job Title *</label><input class="finput" id="m_title" placeholder="Head of APAC BD"></div>
+          <div><label class="flabel">Email</label><input class="finput" id="m_email" placeholder="a@tfb.com"></div>
+          <div><label class="flabel">Phone</label><input class="finput" id="m_phone" placeholder="+65..."></div>
+        </div>
+        <button class="btn-ghost" id="manualBtn" onclick="runManual()">✦ Analyse</button>
       </div>
-      <button class="btn-ghost" id="manualBtn" onclick="runManual()">✦ Analyse</button>
     </div>
+
+    <!-- Extracted contact form with Context section (Decision 3) -->
     <div class="ext-card" id="extCard">
       <div class="ext-label">✓ Extracted — edit if needed</div>
+      <div class="section-label">Contact Details</div>
       <div class="grid2">
         <div><label class="flabel">First Name</label><input class="finput" id="e_fname"></div>
         <div><label class="flabel">Last Name</label><input class="finput" id="e_lname"></div>
@@ -217,7 +277,34 @@ textarea.finput{resize:vertical;min-height:52px}
         <div><label class="flabel">Phone</label><input class="finput" id="e_phone"></div>
         <div class="full"><label class="flabel">Website</label><input class="finput" id="e_web"></div>
       </div>
+
+      <div class="ctx-divider"></div>
+      <div class="section-label">Context</div>
+
+      <div class="fgroup">
+        <label class="flabel">LinkedIn / Source URL</label>
+        <div class="linkedin-field">
+          <span class="link-icon">🔗</span>
+          <input type="text" id="e_linkedin" placeholder="linkedin.com/in/...">
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label class="flabel">Met At</label>
+        <div class="source-row" id="metAtChips"></div>
+      </div>
+
+      <div class="fgroup">
+        <label class="flabel">Tags</label>
+        <div class="source-row" id="customTagsRow"></div>
+      </div>
+
+      <div class="fgroup">
+        <label class="flabel">Quick notes</label>
+        <textarea id="e_notes" class="finput" placeholder="e.g. interested in Pelican, follow up next week..."></textarea>
+      </div>
     </div>
+
     <div class="analysis-box" id="analysisBox">
       <div class="analysis-hdr">
         <div class="analysis-lbl">AI Assessment</div>
@@ -250,6 +337,37 @@ textarea.finput{resize:vertical;min-height:52px}
     <div id="summaryContent"></div>
   </div>
 </div>
+
+<!-- Settings overlay (Decision 2 + Decision 5) -->
+<div class="settings-overlay" id="settingsOverlay">
+  <div class="settings-panel">
+    <div class="settings-header">
+      <h2>⚙ Settings</h2>
+      <button class="close-btn" onclick="toggleSettings()">✕</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Scoring Criteria</div>
+      <div class="fgroup"><label class="flabel">Company Name</label><input class="finput" id="s_company"></div>
+      <div class="fgroup"><label class="flabel">Products / Services</label><input class="finput" id="s_products"></div>
+      <div class="fgroup"><label class="flabel">Industry Focus</label><input class="finput" id="s_industry"></div>
+      <div class="fgroup"><label class="flabel">Ideal Partner Profile</label><textarea class="finput" id="s_profile" style="min-height:90px"></textarea></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Met-At Presets</div>
+      <div class="met-at-editor" id="metAtEditor"></div>
+      <div class="add-met-at">
+        <input type="text" id="newMetAt" placeholder="Add new source…" onkeydown="if(event.key==='Enter'){event.preventDefault();addMetAtPreset();}">
+        <button onclick="addMetAtPreset()">+ Add</button>
+      </div>
+    </div>
+
+    <button class="btn-main" onclick="saveSettings()">Save Settings</button>
+    <button class="btn-ghost" onclick="resetSettings()" style="margin-top:8px">Reset to Defaults</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -259,48 +377,97 @@ const GEMINI_KEY = 'AIzaSyBF1tj5iipnKvO1beO4s1SRpBZle5VVqHk';
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_KEY;
 const GS_URL     = 'https://script.google.com/macros/s/AKfycbzOHQ9pBRT2W3_lf1wPJ-Se60eDrDePxUd7rfo1t1xB1Q5ZFYYaK6b1p27g9YBdjaX-/exec';
 
+const DEFAULT_SETTINGS = {
+  company_name: 'TransactCloud',
+  products: 'Pelican (copy trading), TC Platform',
+  industry_focus: 'FX brokers, copy trading, fintech',
+  partner_profile: 'TransactCloud: Singapore FX/CFD broker infrastructure — FIX bridging, CRM, MAM/copy trading ops. Pelican: FCA-regulated copy trading platform. Clients include IC Markets, Pepperstone, Deriv, Vantage, 58+ brokers. Expanding in Southeast Asia against competitor Brokeree.',
+  met_at_presets: ['TFB Event', 'FM Summit', 'iFX Expo', 'LinkedIn', 'Referral']
+};
+
 // ── STATE ──────────────────────────────────────────────────────
 let contacts = [];
 let currentAnalysis = null;
-let currentSource = 'TFB Event';
+let currentMetAt = '';
+let currentCustomTags = [];
 let currentFilter = 'all';
 let imageBase64 = null;
 let imgMime = 'image/jpeg';
+let inputMode = 'camera';
+let settings = { ...DEFAULT_SETTINGS };
 
 // ── STORAGE ────────────────────────────────────────────────────
+function migrateV4ToV5() {
+  if (localStorage.getItem('bd_contacts_v5')) return;
+  const v4Raw = localStorage.getItem('bd_contacts_v4');
+  if (!v4Raw) return;
+  try {
+    const v4 = JSON.parse(v4Raw);
+    const v5 = v4.map(c => ({
+      ...c,
+      linkedin_url: c.linkedin_url || '',
+      met_at: c.met_at || c.source || '',
+      custom_tags: Array.isArray(c.custom_tags) ? c.custom_tags : [],
+      source_type: c.source_type || 'camera'
+    }));
+    localStorage.setItem('bd_contacts_v5', JSON.stringify(v5));
+  } catch(e) {}
+}
+
 function loadContacts() {
-  try { contacts = JSON.parse(localStorage.getItem('bd_contacts_v4') || '[]'); } catch { contacts = []; }
+  migrateV4ToV5();
+  try { contacts = JSON.parse(localStorage.getItem('bd_contacts_v5') || '[]'); } catch { contacts = []; }
   updateBadge();
   renderContacts();
 }
 
 function saveLocal() {
-  localStorage.setItem('bd_contacts_v4', JSON.stringify(contacts));
+  localStorage.setItem('bd_contacts_v5', JSON.stringify(contacts));
+}
+
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem('bd_radar_settings');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      settings = { ...DEFAULT_SETTINGS, ...parsed };
+      if (!Array.isArray(settings.met_at_presets) || !settings.met_at_presets.length) {
+        settings.met_at_presets = [...DEFAULT_SETTINGS.met_at_presets];
+      }
+    }
+  } catch { settings = { ...DEFAULT_SETTINGS, met_at_presets: [...DEFAULT_SETTINGS.met_at_presets] }; }
+}
+
+function persistSettings() {
+  localStorage.setItem('bd_radar_settings', JSON.stringify(settings));
 }
 
 function sheetBackup(contact) {
-  // Send each field as a flat URL param to work around no-cors body stripping
   try {
     const params = new URLSearchParams({
       action: 'save',
-      fname:       contact.fname       || '',
-      lname:       contact.lname       || '',
-      company:     contact.company     || '',
-      title:       contact.title       || '',
-      email:       contact.email       || '',
-      phone:       contact.phone       || '',
-      website:     contact.website     || '',
-      score:       contact.score       || '',
-      tier:        contact.tier        || '',
-      category:    contact.category    || '',
-      pelican_fit: contact.pelican_fit || '',
-      tc_fit:      contact.tc_fit      || '',
-      urgency:     contact.urgency     || '',
-      next_action: contact.next_action || '',
-      summary:     contact.summary     || '',
-      source:      contact.source      || '',
-      notes:       contact.notes       || '',
-      savedAt:     contact.savedAt     || ''
+      fname:        contact.fname        || '',
+      lname:        contact.lname        || '',
+      company:      contact.company      || '',
+      title:        contact.title        || '',
+      email:        contact.email        || '',
+      phone:        contact.phone        || '',
+      website:      contact.website      || '',
+      score:        contact.score        || '',
+      tier:         contact.tier         || '',
+      category:     contact.category     || '',
+      pelican_fit:  contact.pelican_fit  || '',
+      tc_fit:       contact.tc_fit       || '',
+      urgency:      contact.urgency      || '',
+      next_action:  contact.next_action  || '',
+      summary:      contact.summary      || '',
+      source:       contact.source       || contact.met_at || '',
+      met_at:       contact.met_at       || '',
+      linkedin_url: contact.linkedin_url || '',
+      source_type:  contact.source_type  || '',
+      custom_tags:  (contact.custom_tags || []).join(', '),
+      notes:        contact.notes        || '',
+      savedAt:      contact.savedAt      || ''
     });
     fetch(GS_URL + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
   } catch(e) {}
@@ -323,14 +490,12 @@ function parseJSON(text) {
   try { return JSON.parse(c); } catch {}
   const s=c.indexOf('{'), e=c.lastIndexOf('}');
   if(s!==-1&&e!==-1) try{return JSON.parse(c.slice(s,e+1));}catch{}
-  // Fallback: manual extract
   const g  = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*"([^"]*)"`, 'i')); return m?m[1]:''; };
   const gn = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*(\\d+)`, 'i')); return m?parseInt(m[1]):5; };
   const ga = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*\\[([^\\]]+)\\]`, 'i')); if(!m) return []; return m[1].match(/"([^"]+)"/g)?.map(x=>x.replace(/"/g,''))||[]; };
   return {fname:g('fname'),lname:g('lname'),company:g('company'),title:g('title'),email:g('email'),phone:g('phone'),website:g('website'),score:gn('score'),tier:g('tier')||'warm',category:g('category')||'other',company_overview:g('company_overview')||'',opportunity:g('opportunity')||'',summary:g('summary')||'',next_action:g('next_action')||'Follow up',tags:ga('tags'),pelican_fit:g('pelican_fit')||'maybe',tc_fit:g('tc_fit')||'maybe',urgency:g('urgency')||'this month'};
 }
 
-// Standard Gemini call (for image extraction — no search needed)
 async function gemini(parts) {
   const res = await fetch(GEMINI_URL, {
     method: 'POST',
@@ -345,7 +510,6 @@ async function gemini(parts) {
   return d.candidates[0].content.parts[0].text;
 }
 
-// Gemini with Google Search grounding (for company analysis)
 async function geminiWithSearch(prompt) {
   const res = await fetch(GEMINI_URL, {
     method: 'POST',
@@ -358,15 +522,60 @@ async function geminiWithSearch(prompt) {
   });
   const d = await res.json();
   if (d.error) throw new Error(d.error.message);
-  // Extract text from all parts (search grounding may return multiple)
   const parts = d.candidates[0].content.parts || [];
   return parts.map(p => p.text || '').join('');
 }
 
+// ── PROMPT BUILDERS ────────────────────────────────────────────
+function buildScoringPrompt(fname, lname, company, title) {
+  const s = settings;
+  return `You are a BD analyst for ${s.company_name}.
+Company: ${s.company_name}
+Products / Services: ${s.products}
+Industry focus: ${s.industry_focus}
+Ideal partner profile: ${s.partner_profile}
+
+Analyse this contact's BD potential and return ONLY a JSON object (no markdown, no explanation):
+{"score":7,"tier":"warm","category":"broker","company_overview":"1-2 sentence summary of the company","opportunity":"1-2 sentence specific opportunity for ${s.company_name}","summary":"2-3 sentence analysis of who they are and the overall fit","next_action":"Single most important next step","tags":["tag1","tag2","tag3"],"pelican_fit":"yes","tc_fit":"maybe","urgency":"this week"}
+
+Rules:
+- tier: hot (score 8-10) | warm (5-7) | cold (1-4)
+- category: broker | tech | lp | crm | media | other
+- pelican_fit / tc_fit: yes | maybe | no (fit with ${s.company_name}'s products)
+- urgency: this week | this month | low
+
+Contact: ${fname} ${lname} | ${company} | ${title}`;
+}
+
+function buildUrlPrompt(url) {
+  const s = settings;
+  return `Research the person/company at this URL using web search: ${url}
+
+You are a BD analyst for ${s.company_name}.
+Company: ${s.company_name}
+Products / Services: ${s.products}
+Industry focus: ${s.industry_focus}
+Ideal partner profile: ${s.partner_profile}
+
+Step 1: Extract the person's contact details from the URL and any public web sources (LinkedIn, company website, news, etc.).
+Step 2: Analyse their BD potential for ${s.company_name}.
+
+Return ONLY a JSON object (no markdown, no explanation):
+{"fname":"","lname":"","company":"","title":"","email":"","phone":"","website":"","score":7,"tier":"warm","category":"broker","company_overview":"1-2 sentence summary","opportunity":"1-2 sentence specific opportunity for ${s.company_name}","summary":"2-3 sentence analysis","next_action":"Single most important next step","tags":["tag1","tag2","tag3"],"pelican_fit":"yes","tc_fit":"maybe","urgency":"this week"}
+
+Rules:
+- If a contact field cannot be determined, use an empty string
+- tier: hot (score 8-10) | warm (5-7) | cold (1-4)
+- category: broker | tech | lp | crm | media | other
+- pelican_fit / tc_fit: yes | maybe | no
+- urgency: this week | this month | low`;
+}
+
 // ── IMAGE ──────────────────────────────────────────────────────
-function handleImage(e) {
+function handleImage(e, src) {
   const file = e.target.files[0]; if(!file) return;
   imgMime = file.type || 'image/jpeg';
+  inputMode = src || inputMode;
   const reader = new FileReader();
   reader.onload = ev => {
     document.getElementById('previewImg').src = ev.target.result;
@@ -386,11 +595,34 @@ function clearScan() {
   document.getElementById('analysisBox').classList.remove('vis');
   document.getElementById('progressRow').style.display='none';
   document.getElementById('statusTxt').textContent='';
-  document.getElementById('f_notes').value='';
+  const ui = document.getElementById('urlInput'); if (ui) ui.value = '';
+  currentMetAt = '';
+  currentCustomTags = [];
+  renderMetAtChips();
+  renderCustomTags();
   setStep(0);
 }
 
-// ── SCAN FLOW ──────────────────────────────────────────────────
+// ── INPUT MODE ─────────────────────────────────────────────────
+function setInputMode(mode) {
+  inputMode = mode;
+  document.querySelectorAll('.input-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('mode-' + mode).classList.add('active');
+  const imgArea = document.getElementById('imageInputArea');
+  const urlArea = document.getElementById('linkedinInputArea');
+  const manual  = document.getElementById('manualSection');
+  if (mode === 'linkedin') {
+    imgArea.classList.add('hidden');
+    urlArea.classList.add('vis');
+    manual.style.display = 'none';
+  } else {
+    imgArea.classList.remove('hidden');
+    urlArea.classList.remove('vis');
+    manual.style.display = '';
+  }
+}
+
+// ── SCAN FLOW (CAMERA / GALLERY) ───────────────────────────────
 async function processCard() {
   if(!imageBase64){alert('Please photograph a namecard first');return;}
   setBusy(true);
@@ -400,7 +632,6 @@ async function processCard() {
   setStep(1); setStatus('Reading namecard...');
 
   try {
-    // Step 1: Extract contact info from image using Gemini Vision
     const extractText = await gemini([
       { inline_data: { mime_type: imgMime, data: imageBase64 } },
       { text: 'Extract all contact information from this business card image. Return ONLY a JSON object with these exact keys (use empty string if not visible): {"fname":"","lname":"","company":"","title":"","email":"","phone":"","website":"","linkedin":""}. No markdown, no explanation, just the JSON.' }
@@ -409,15 +640,71 @@ async function processCard() {
     const ext = parseJSON(extractText);
     fillExtracted(ext);
     document.getElementById('extCard').classList.add('vis');
+    renderMetAtChips();
+    renderCustomTags();
 
     setStep(2); setStatus('Analysing BD potential...');
-    await runAnalysis(ext);
+    await runAnalysis(ext, inputMode === 'gallery' ? 'gallery' : 'camera');
 
   } catch(err) {
     setStatus('⚠ ' + err.message);
     setStep(0);
   }
   setBusy(false);
+}
+
+// ── URL FLOW (LINKEDIN / WEBSITE) ──────────────────────────────
+async function processUrl() {
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) { toast('Please enter a URL'); return; }
+  try {
+    const u = new URL(url);
+    if (!/^https?:$/.test(u.protocol)) throw new Error('bad protocol');
+  } catch {
+    toast('Enter a valid URL (e.g. https://...)');
+    return;
+  }
+
+  setBusy(true, 'url');
+  document.getElementById('progressRow').style.display='flex';
+  document.getElementById('extCard').classList.remove('vis');
+  document.getElementById('analysisBox').classList.remove('vis');
+  setStep(1); setStatus('Looking up profile...');
+
+  try {
+    setStep(2); setStatus('Researching profile & company...');
+    const txt = await geminiWithSearch(buildUrlPrompt(url));
+    const result = parseJSON(txt);
+
+    fillExtracted(result);
+    document.getElementById('e_linkedin').value = url;
+    document.getElementById('extCard').classList.add('vis');
+    renderMetAtChips();
+    renderCustomTags();
+
+    setStep(3); setStatus('');
+    renderScoreCard(result);
+
+    currentAnalysis = {
+      fname: document.getElementById('e_fname').value || result.fname || '',
+      lname: document.getElementById('e_lname').value || result.lname || '',
+      company: document.getElementById('e_company').value || result.company || '',
+      title: document.getElementById('e_title').value || result.title || '',
+      email: document.getElementById('e_email').value || result.email || '',
+      phone: document.getElementById('e_phone').value || result.phone || '',
+      website: document.getElementById('e_web').value || result.website || '',
+      linkedin_url: url,
+      source_type: 'url',
+      id: Date.now(),
+      savedAt: new Date().toLocaleDateString('en-GB'),
+      ...result
+    };
+
+  } catch(err) {
+    setStatus('⚠ ' + err.message);
+    setStep(0);
+  }
+  setBusy(false, 'url');
 }
 
 async function runManual() {
@@ -433,11 +720,13 @@ async function runManual() {
   };
   fillExtracted(ext);
   document.getElementById('extCard').classList.add('vis');
+  renderMetAtChips();
+  renderCustomTags();
   document.getElementById('progressRow').style.display='flex';
   document.getElementById('analysisBox').classList.remove('vis');
   setStep(2); setStatus('Analysing BD potential...');
   const btn=document.getElementById('manualBtn'); btn.disabled=true;
-  try { await runAnalysis(ext); } catch(e){ setStatus('⚠ '+e.message); }
+  try { await runAnalysis(ext, 'manual'); } catch(e){ setStatus('⚠ '+e.message); }
   btn.disabled=false;
 }
 
@@ -448,35 +737,19 @@ function fillExtracted(ext) {
   document.getElementById('e_title').value   = ext.title   || '';
   document.getElementById('e_email').value   = ext.email   || '';
   document.getElementById('e_phone').value   = ext.phone   || '';
-  document.getElementById('e_web').value     = ext.website || ext.linkedin || '';
+  document.getElementById('e_web').value     = ext.website || '';
+  document.getElementById('e_linkedin').value = ext.linkedin || '';
+  document.getElementById('e_notes').value   = '';
 }
 
-async function runAnalysis(ext) {
+async function runAnalysis(ext, sourceType) {
   const fname   = document.getElementById('e_fname').value   || ext.fname   || '';
   const lname   = document.getElementById('e_lname').value   || ext.lname   || '';
   const company = document.getElementById('e_company').value || ext.company || '';
   const title   = document.getElementById('e_title').value   || ext.title   || '';
-  const notes   = document.getElementById('f_notes').value.trim();
 
-  const prompt = `You are a BD analyst for TransactCloud and Pelican.
-TransactCloud: Singapore FX/CFD broker infrastructure — FIX bridging, CRM, MAM/copy trading ops.
-Pelican: FCA-regulated copy trading platform. Clients include IC Markets, Pepperstone, Deriv, Vantage, 58+ brokers. Expanding in Southeast Asia against competitor Brokeree.
-
-Analyse this contact's BD potential and return ONLY a JSON object (no markdown, no explanation):
-{"score":7,"tier":"warm","category":"broker","summary":"2-3 sentence analysis of who they are and the opportunity","next_action":"Single most important next step","tags":["tag1","tag2","tag3"],"pelican_fit":"yes","tc_fit":"maybe","urgency":"this week"}
-
-Rules:
-- tier: hot (score 8-10) | warm (5-7) | cold (1-4)
-- category: broker | tech | lp | crm | media | other
-- pelican_fit / tc_fit: yes | maybe | no
-- urgency: this week | this month | low
-
-Contact: ${fname} ${lname} | ${company} | ${title}
-Met at: ${currentSource}
-Notes: ${notes||'none'}`;
-
-  setStatus('Researching ' + company + '...');
-  const txt = await geminiWithSearch(prompt);
+  setStatus('Researching ' + (company || 'contact') + '...');
+  const txt = await geminiWithSearch(buildScoringPrompt(fname, lname, company, title));
   const result = parseJSON(txt);
 
   currentAnalysis = {
@@ -487,15 +760,18 @@ Notes: ${notes||'none'}`;
     email: document.getElementById('e_email').value,
     phone: document.getElementById('e_phone').value,
     website: document.getElementById('e_web').value,
-    source: currentSource,
-    notes: document.getElementById('f_notes').value.trim(),
+    linkedin_url: document.getElementById('e_linkedin').value || '',
+    source_type: sourceType || 'camera',
     id: Date.now(),
     savedAt: new Date().toLocaleDateString('en-GB'),
     ...result
   };
 
   setStep(3); setStatus('');
+  renderScoreCard(result);
+}
 
+function renderScoreCard(result) {
   const tc = result.tier==='hot'?'var(--gold2)':result.tier==='warm'?'var(--amber)':'var(--blue)';
   document.getElementById('scoreNum').innerHTML = `${result.score||'?'}<small>/10</small>`;
   document.getElementById('scoreNum').style.color = tc;
@@ -506,8 +782,8 @@ Notes: ${notes||'none'}`;
     `<span style="font-family:monospace;font-size:11px;color:var(--muted)">${urgIcon} ${urgTxt}</span><br><br>` +
     (result.company_overview ? `<div style="background:var(--surface3);border-radius:8px;padding:10px 12px;margin-bottom:10px"><span style="font-family:monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)">Company</span><br><span style="font-size:12px;color:var(--muted);line-height:1.6">${result.company_overview}</span></div>` : '') +
     (result.opportunity ? `<div style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:10px 12px;margin-bottom:10px"><span style="font-family:monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Opportunity</span><br><span style="font-size:12px;color:var(--text);line-height:1.6">${result.opportunity}</span></div>` : '') +
-    `<strong style="color:var(--text)">Next: ${result.next_action}</strong><br><br>` +
-    `<span style="color:var(--muted)">${result.summary}</span>`;
+    `<strong style="color:var(--text)">Next: ${result.next_action||'Follow up'}</strong><br><br>` +
+    `<span style="color:var(--muted)">${result.summary||''}</span>`;
 
   const tr = document.getElementById('tagsRow'); tr.innerHTML='';
   (result.tags||[]).forEach(t=>{const s=document.createElement('span');s.className='atag tag-blue';s.textContent=t;tr.appendChild(s);});
@@ -518,6 +794,21 @@ Notes: ${notes||'none'}`;
 
 function saveContact() {
   if(!currentAnalysis) return;
+  // Re-read user-edited form values so saved contact reflects edits made
+  // after AI analysis (LinkedIn URL, met-at, custom tags, notes, contact fields).
+  currentAnalysis.fname   = document.getElementById('e_fname').value   || currentAnalysis.fname;
+  currentAnalysis.lname   = document.getElementById('e_lname').value   || currentAnalysis.lname;
+  currentAnalysis.company = document.getElementById('e_company').value || currentAnalysis.company;
+  currentAnalysis.title   = document.getElementById('e_title').value   || currentAnalysis.title;
+  currentAnalysis.email   = document.getElementById('e_email').value   || '';
+  currentAnalysis.phone   = document.getElementById('e_phone').value   || '';
+  currentAnalysis.website = document.getElementById('e_web').value     || '';
+  currentAnalysis.linkedin_url = document.getElementById('e_linkedin').value || currentAnalysis.linkedin_url || '';
+  currentAnalysis.met_at  = currentMetAt || '';
+  currentAnalysis.source  = currentMetAt || ''; // legacy alias
+  currentAnalysis.custom_tags = [...currentCustomTags];
+  currentAnalysis.notes   = document.getElementById('e_notes').value.trim();
+
   contacts.unshift(currentAnalysis);
   saveLocal();
   sheetBackup(currentAnalysis);
@@ -532,21 +823,149 @@ function saveContact() {
 // ── EXCEL EXPORT ───────────────────────────────────────────────
 function exportExcel() {
   if(!contacts.length){alert('No contacts to export yet');return;}
-  const headers=['First Name','Last Name','Company','Job Title','Email','Phone','Website','Score','Tier','Category','Pelican Fit','TC Fit','Urgency','Next Action','AI Summary','Met At','Notes','Date Added'];
-  const rows=contacts.map(c=>[c.fname||'',c.lname||'',c.company||'',c.title||'',c.email||'',c.phone||'',c.website||'',c.score||'',c.tier||'',c.category||'',c.pelican_fit||'',c.tc_fit||'',c.urgency||'',c.next_action||'',c.summary||'',c.source||'',c.notes||'',c.savedAt||'']);
+  const headers=['First Name','Last Name','Company','Job Title','Email','Phone','Website','LinkedIn URL','Score','Tier','Category','Pelican Fit','TC Fit','Urgency','Next Action','AI Summary','Met At','Source Type','Custom Tags','Notes','Date Added'];
+  const rows=contacts.map(c=>[c.fname||'',c.lname||'',c.company||'',c.title||'',c.email||'',c.phone||'',c.website||'',c.linkedin_url||'',c.score||'',c.tier||'',c.category||'',c.pelican_fit||'',c.tc_fit||'',c.urgency||'',c.next_action||'',c.summary||'',c.met_at||c.source||'',c.source_type||'',(c.custom_tags||[]).join(', '),c.notes||'',c.savedAt||'']);
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.aoa_to_sheet([headers,...rows]);
-  ws['!cols']=[{wch:12},{wch:12},{wch:22},{wch:26},{wch:26},{wch:14},{wch:22},{wch:7},{wch:7},{wch:10},{wch:12},{wch:8},{wch:14},{wch:36},{wch:50},{wch:12},{wch:30},{wch:12}];
+  ws['!cols']=[{wch:12},{wch:12},{wch:22},{wch:26},{wch:26},{wch:14},{wch:22},{wch:30},{wch:7},{wch:7},{wch:10},{wch:12},{wch:8},{wch:14},{wch:36},{wch:50},{wch:14},{wch:10},{wch:24},{wch:30},{wch:12}];
   XLSX.utils.book_append_sheet(wb,ws,'BD Contacts');
   XLSX.writeFile(wb,`BD-Contacts-${new Date().toISOString().slice(0,10)}.xlsx`);
   toast('📊 Excel downloaded');
 }
 
+// ── SETTINGS ───────────────────────────────────────────────────
+function toggleSettings() {
+  const ov = document.getElementById('settingsOverlay');
+  const opening = !ov.classList.contains('vis');
+  if (opening) {
+    document.getElementById('s_company').value = settings.company_name;
+    document.getElementById('s_products').value = settings.products;
+    document.getElementById('s_industry').value = settings.industry_focus;
+    document.getElementById('s_profile').value = settings.partner_profile;
+    renderMetAtEditor();
+  }
+  ov.classList.toggle('vis', opening);
+}
+
+function saveSettings() {
+  settings.company_name    = document.getElementById('s_company').value.trim()  || DEFAULT_SETTINGS.company_name;
+  settings.products        = document.getElementById('s_products').value.trim();
+  settings.industry_focus  = document.getElementById('s_industry').value.trim();
+  settings.partner_profile = document.getElementById('s_profile').value.trim();
+  if (!settings.met_at_presets.length) settings.met_at_presets = [...DEFAULT_SETTINGS.met_at_presets];
+  persistSettings();
+  toggleSettings();
+  renderMetAtChips();
+  toast('✓ Settings saved');
+}
+
+function resetSettings() {
+  if (!confirm('Reset all settings to defaults?')) return;
+  settings = { ...DEFAULT_SETTINGS, met_at_presets: [...DEFAULT_SETTINGS.met_at_presets] };
+  persistSettings();
+  document.getElementById('s_company').value = settings.company_name;
+  document.getElementById('s_products').value = settings.products;
+  document.getElementById('s_industry').value = settings.industry_focus;
+  document.getElementById('s_profile').value = settings.partner_profile;
+  renderMetAtEditor();
+  renderMetAtChips();
+  toast('Settings reset to defaults');
+}
+
+function renderMetAtEditor() {
+  const ed = document.getElementById('metAtEditor');
+  if (!ed) return;
+  if (!settings.met_at_presets.length) {
+    ed.innerHTML = '<span style="font-size:11px;color:var(--dim);font-family:monospace">No presets — add one below</span>';
+    return;
+  }
+  ed.innerHTML = settings.met_at_presets.map((p,i) =>
+    `<div class="met-at-item">${escapeHtml(p)}<span class="remove" onclick="removeMetAtPreset(${i})">×</span></div>`
+  ).join('');
+}
+
+function addMetAtPreset() {
+  const inp = document.getElementById('newMetAt');
+  const val = inp.value.trim();
+  if (!val) return;
+  if (settings.met_at_presets.includes(val)) { toast('Already in list'); return; }
+  settings.met_at_presets.push(val);
+  inp.value = '';
+  renderMetAtEditor();
+}
+
+function removeMetAtPreset(idx) {
+  settings.met_at_presets.splice(idx, 1);
+  renderMetAtEditor();
+}
+
+// ── MET-AT CHIPS (in contact form) ─────────────────────────────
+function renderMetAtChips() {
+  const row = document.getElementById('metAtChips');
+  if (!row) return;
+  if (!settings.met_at_presets.length) {
+    row.innerHTML = '<span style="font-size:11px;color:var(--dim);font-family:monospace">No presets — add in ⚙ Settings</span>';
+    return;
+  }
+  row.innerHTML = settings.met_at_presets.map(p => {
+    const safe = escapeAttr(p);
+    const cls = (p === currentMetAt) ? 'src-btn active' : 'src-btn';
+    return `<button type="button" class="${cls}" onclick="selectMetAt(this,'${safe}')">${escapeHtml(p)}</button>`;
+  }).join('');
+}
+
+function selectMetAt(btn, val) {
+  if (currentMetAt === val) {
+    currentMetAt = '';
+    btn.classList.remove('active');
+    return;
+  }
+  document.querySelectorAll('#metAtChips .src-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentMetAt = val;
+}
+
+// ── CUSTOM TAGS (in contact form) ──────────────────────────────
+function renderCustomTags() {
+  const row = document.getElementById('customTagsRow');
+  if (!row) return;
+  const chips = currentCustomTags.map((t,i) =>
+    `<span class="custom-tag">${escapeHtml(t)}<span class="remove" onclick="removeCustomTag(${i})">×</span></span>`
+  ).join('');
+  row.innerHTML = chips + `<button type="button" class="add-tag-btn" onclick="addCustomTag()">+ Add tag</button>`;
+}
+
+function addCustomTag() {
+  const name = prompt('Tag name:');
+  if (!name) return;
+  const tag = name.trim();
+  if (!tag) return;
+  if (currentCustomTags.includes(tag)) return;
+  currentCustomTags.push(tag);
+  renderCustomTags();
+}
+
+function removeCustomTag(idx) {
+  currentCustomTags.splice(idx, 1);
+  renderCustomTags();
+}
+
 // ── UI HELPERS ─────────────────────────────────────────────────
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function escapeAttr(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
 function setStep(n){['ps1','ps2','ps3'].forEach((id,i)=>{const el=document.getElementById(id);if(n===0){el.className='pstep';return;}el.className='pstep'+(i+1<n?' done':i+1===n?' act':'');});}
 function setStatus(msg){document.getElementById('statusTxt').textContent=msg;}
-function setBusy(b){const btn=document.getElementById('scanBtn');btn.disabled=b;document.getElementById('scanBtnTxt').innerHTML=b?'<div class="dots"><span></span><span></span><span></span></div>':'✦ Scan &amp; Analyse';}
-function setSource(btn,val){document.querySelectorAll('.src-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentSource=val;}
+function setBusy(b, which){
+  const txtImg='✦ Scan &amp; Analyse';
+  const txtUrl='✦ Analyse Contact';
+  if (which === 'url') {
+    const btn=document.getElementById('urlBtn'); btn.disabled=b;
+    document.getElementById('urlBtnTxt').innerHTML=b?'<div class="dots"><span></span><span></span><span></span></div>':txtUrl;
+  } else {
+    const btn=document.getElementById('scanBtn'); btn.disabled=b;
+    document.getElementById('scanBtnTxt').innerHTML=b?'<div class="dots"><span></span><span></span><span></span></div>':txtImg;
+  }
+}
 function showTab(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');if(btn)btn.classList.add('active');if(id==='contacts')renderContacts();if(id==='summary')renderSummary();}
 function setFilter(btn,val){document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=val;renderContacts(document.querySelector('.search-inp')?.value||'');}
 function toggleManual(){const mf=document.getElementById('manualFields');const open=mf.style.display==='none';mf.style.display=open?'block':'none';document.querySelector('.manual-toggle').textContent=(open?'▾':'▸')+' Type details instead';}
@@ -560,30 +979,38 @@ function renderContacts(search=''){
   const list=document.getElementById('contactsList');
   let f=contacts;
   if(currentFilter!=='all')f=f.filter(c=>c.tier===currentFilter||c.category===currentFilter);
-  if(search){const s=search.toLowerCase();f=f.filter(c=>(c.fname+' '+c.lname+c.company+c.title).toLowerCase().includes(s));}
+  if(search){const s=search.toLowerCase();f=f.filter(c=>((c.fname||'')+' '+(c.lname||'')+' '+(c.company||'')+' '+(c.title||'')+' '+(c.custom_tags||[]).join(' ')).toLowerCase().includes(s));}
   if(!f.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon">${contacts.length?'🔍':'📇'}</div>${contacts.length?'No contacts match this filter':'No contacts yet. Scan your first namecard!'}</div>`;return;}
-  list.innerHTML=f.map(c=>`
+  list.innerHTML=f.map(c=>{
+    const allTags = [...(c.tags||[]), ...(c.custom_tags||[])].slice(0,4);
+    const metAt = c.met_at || c.source || '';
+    return `
     <div class="contact-card ${c.tier||'cold'}" onclick="toggleCard(${c.id})">
-      <div class="c-top"><div class="c-name">${c.fname||''} ${c.lname||''}</div><div class="c-score" style="color:${tierColor(c.tier)}">${tierIcon(c.tier)} ${c.score||'?'}/10</div></div>
-      <div class="c-co">${c.company||''}</div>
-      <div class="c-role">${c.title||''}</div>
+      <div class="c-top"><div class="c-name">${escapeHtml(c.fname||'')} ${escapeHtml(c.lname||'')}</div><div class="c-score" style="color:${tierColor(c.tier)}">${tierIcon(c.tier)} ${c.score||'?'}/10</div></div>
+      <div class="c-co">${escapeHtml(c.company||'')}</div>
+      <div class="c-role">${escapeHtml(c.title||'')}</div>
+      ${c.linkedin_url?`<div class="c-linkedin">🔗 ${escapeHtml(c.linkedin_url.replace(/^https?:\/\//,''))}</div>`:''}
       <div class="c-meta">
-        ${(c.tags||[]).slice(0,3).map(t=>`<span class="cmeta">${t}</span>`).join('')}
+        ${allTags.map(t=>`<span class="cmeta">${escapeHtml(t)}</span>`).join('')}
         ${c.pelican_fit==='yes'?'<span class="cmeta" style="background:var(--teal-dim);color:var(--teal)">Pelican</span>':''}
-        <span class="cmeta">${c.source||''}</span>
-        <span class="cmeta">${c.savedAt||''}</span>
+        ${metAt?`<span class="cmeta source">${escapeHtml(metAt)}</span>`:''}
+        <span class="cmeta">${escapeHtml(c.savedAt||'')}</span>
       </div>
       <div class="c-detail" id="det-${c.id}">
-        <p>${c.summary||''}</p>
-        <p style="color:var(--gold);margin-top:6px"><strong>Next:</strong> ${c.next_action||''}</p>
-        ${c.email?`<p>✉ ${c.email}</p>`:''}
-        ${c.phone?`<p>📞 ${c.phone}</p>`:''}
-        ${c.website?`<p>🔗 ${c.website}</p>`:''}
-        ${c.notes?`<p style="color:var(--dim);margin-top:4px">Notes: ${c.notes}</p>`:''}
+        <p>${escapeHtml(c.summary||'')}</p>
+        <p style="color:var(--gold);margin-top:6px"><strong>Next:</strong> ${escapeHtml(c.next_action||'')}</p>
+        ${c.email?`<p>✉ ${escapeHtml(c.email)}</p>`:''}
+        ${c.phone?`<p>📞 ${escapeHtml(c.phone)}</p>`:''}
+        ${c.website?`<p>🔗 ${escapeHtml(c.website)}</p>`:''}
+        ${c.linkedin_url?`<p>🔗 <a href="${escapeAttrUrl(c.linkedin_url)}" target="_blank" rel="noopener" style="color:var(--blue)" onclick="event.stopPropagation()">${escapeHtml(c.linkedin_url)}</a></p>`:''}
+        ${c.notes?`<p style="color:var(--dim);margin-top:4px">Notes: ${escapeHtml(c.notes)}</p>`:''}
         <button class="del-btn" onclick="deleteContact(event,'${c.id}')">Delete</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
+
+function escapeAttrUrl(s){return String(s).replace(/"/g,'%22');}
 
 function toggleCard(id){const d=document.getElementById('det-'+id);if(d)d.classList.toggle('open');}
 
@@ -608,6 +1035,9 @@ function renderSummary(){
   const pel=contacts.filter(c=>c.pelican_fit==='yes');
   const urg=contacts.filter(c=>c.urgency==='this week');
   const top=[...contacts].sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,5);
+  const sources={};
+  contacts.forEach(c=>{const m=c.met_at||c.source;if(m)sources[m]=(sources[m]||0)+1;});
+  const sourceList=Object.entries(sources).sort((a,b)=>b[1]-a[1]).slice(0,6);
   el.innerHTML=`
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-num-big" style="color:var(--gold)">${hot.length}</div><div class="stat-lbl">🔥 Hot</div></div>
@@ -617,8 +1047,12 @@ function renderSummary(){
     </div>
     <div class="priority-card">
       <div class="priority-title">⚡ Priority follow-ups</div>
-      ${top.map(c=>`<div class="p-row"><div><div class="p-name">${c.fname||''} ${c.lname||''}</div><div class="p-co">${c.company||''} · ${c.urgency||''}</div></div><div style="font-family:monospace;font-size:13px;color:${tierColor(c.tier)}">${c.score||'?'}/10</div></div>`).join('')}
+      ${top.map(c=>`<div class="p-row"><div><div class="p-name">${escapeHtml(c.fname||'')} ${escapeHtml(c.lname||'')}</div><div class="p-co">${escapeHtml(c.company||'')} · ${escapeHtml(c.urgency||'')}</div></div><div style="font-family:monospace;font-size:13px;color:${tierColor(c.tier)}">${c.score||'?'}/10</div></div>`).join('')}
     </div>
+    ${sourceList.length?`<div class="priority-card" style="border-color:var(--border)">
+      <div class="priority-title" style="color:var(--muted)">Top sources</div>
+      ${sourceList.map(([k,v])=>`<div class="p-row"><div class="p-name">${escapeHtml(k)}</div><div style="font-family:monospace;font-size:12px;color:var(--gold)">${v}</div></div>`).join('')}
+    </div>`:''}
     <div class="priority-card" style="border-color:var(--border)">
       <div class="priority-title" style="color:var(--muted)">By category</div>
       ${['broker','tech','lp','crm','media','other'].map(cat=>{const n=contacts.filter(c=>c.category===cat).length;if(!n)return'';return`<div class="p-row"><div class="p-name" style="text-transform:capitalize">${cat}</div><div style="font-family:monospace;font-size:12px;color:var(--muted)">${n}</div></div>`;}).join('')}
@@ -627,7 +1061,10 @@ function renderSummary(){
 }
 
 // ── INIT ───────────────────────────────────────────────────────
+loadSettings();
 loadContacts();
+renderMetAtChips();
+renderCustomTags();
 </script>
 </body>
 </html>
