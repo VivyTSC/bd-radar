@@ -251,14 +251,42 @@ textarea.finput{resize:vertical;min-height:52px}
       <div class="source-row">
         <button class="src-btn active" onclick="setSource(this,'TFB Event')">TFB Event</button>
         <button class="src-btn" onclick="setSource(this,'FM Summit')">FM Summit</button>
+        <button class="src-btn" onclick="setSource(this,'IFX HK')">IFX HK</button>
         <button class="src-btn" onclick="setSource(this,'LinkedIn')">LinkedIn</button>
         <button class="src-btn" onclick="setSource(this,'Referral')">Referral</button>
         <button class="src-btn" onclick="setSource(this,'Other')">Other</button>
       </div>
     </div>
+    <div class="grid2" style="margin-bottom:8px">
+      <div class="fgroup">
+        <label class="flabel">Follow up by (date)</label>
+        <input type="date" id="f_followup" class="finput">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Primary language</label>
+        <select id="f_language" class="finput">
+          <option value="English">English</option>
+          <option value="Mandarin">Mandarin</option>
+          <option value="Cantonese">Cantonese</option>
+          <option value="Bahasa">Bahasa</option>
+          <option value="Thai">Thai</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid2" style="margin-bottom:8px">
+      <div class="fgroup">
+        <label class="flabel">Current copy trading provider</label>
+        <input type="text" id="f_competitor" class="finput" placeholder="e.g. Brokeree, ZuluTrade, none...">
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Referred by</label>
+        <input type="text" id="f_referredby" class="finput" placeholder="e.g. Argyri at TFB...">
+      </div>
+    </div>
     <div class="fgroup">
       <label class="flabel">Quick notes (optional)</label>
-      <textarea id="f_notes" class="finput" placeholder="e.g. interested in Pelican, uses Brokeree, follow up next week..."></textarea>
+      <textarea id="f_notes" class="finput" placeholder="e.g. interested in Pelican, expanding in China, looking at crypto CFDs..."></textarea>
     </div>
     <button class="btn-main" id="scanBtn" onclick="processCard()">
       <span id="scanBtnTxt">✦ Scan &amp; Analyse</span>
@@ -427,7 +455,7 @@ function parseJSON(text) {
   const g  = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*"([^"]*)"`, 'i')); return m?m[1]:''; };
   const gn = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*(\\d+)`, 'i')); return m?parseInt(m[1]):5; };
   const ga = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*\\[([^\\]]+)\\]`, 'i')); if(!m) return []; return m[1].match(/"([^"]+)"/g)?.map(x=>x.replace(/"/g,''))||[]; };
-  return {fname:g('fname'),lname:g('lname'),company:g('company'),title:g('title'),email:g('email'),phone:g('phone'),website:g('website'),score:gn('score'),tier:g('tier')||'warm',category:g('category')||'other',company_overview:g('company_overview')||'',opportunity:g('opportunity')||'',summary:g('summary')||'',next_action:g('next_action')||'Follow up',tags:ga('tags'),pelican_fit:g('pelican_fit')||'maybe',tc_fit:g('tc_fit')||'maybe',urgency:g('urgency')||'this month'};
+  return {fname:g('fname'),lname:g('lname'),company:g('company'),title:g('title'),email:g('email'),phone:g('phone'),website:g('website'),score:gn('score'),tier:g('tier')||'warm',category:g('category')||'other',company_overview:g('company_overview')||'',opportunity:g('opportunity')||'',china_hk_angle:g('china_hk_angle')||'',crypto_relevance:g('crypto_relevance')||'no',mandarin_followup:g('mandarin_followup')||'no',summary:g('summary')||'',next_action:g('next_action')||'Follow up',tags:ga('tags'),pelican_fit:g('pelican_fit')||'maybe',tc_fit:g('tc_fit')||'maybe',urgency:g('urgency')||'this month'};
 }
 
 // Standard Gemini call (for image extraction — no search needed)
@@ -544,6 +572,10 @@ function clearScan() {
   document.getElementById('statusTxt').textContent='';
   document.getElementById('f_notes').value='';
   const liUrl = document.getElementById('li_url'); if(liUrl) liUrl.value='';
+  const fFollowup = document.getElementById('f_followup'); if(fFollowup) fFollowup.value='';
+  const fLang = document.getElementById('f_language'); if(fLang) fLang.selectedIndex=0;
+  const fComp = document.getElementById('f_competitor'); if(fComp) fComp.value='';
+  const fRef = document.getElementById('f_referredby'); if(fRef) fRef.value='';
   const dupBanner = document.getElementById('dupBanner'); if(dupBanner) dupBanner.classList.remove('vis');
   const saveBtn = document.getElementById('saveBtn'); if(saveBtn) saveBtn.style.display='';
   const liTxt = document.getElementById('li_text'); if(liTxt) liTxt.value='';
@@ -623,9 +655,13 @@ async function runAnalysis(ext) {
   const title   = document.getElementById('e_title').value   || ext.title   || '';
   const notes   = document.getElementById('f_notes').value.trim();
 
+  const competitor = document.getElementById('f_competitor')?.value.trim() || '';
+  const language = document.getElementById('f_language')?.value || 'English';
+  const followup = document.getElementById('f_followup')?.value || '';
+
   const prompt = `You are a BD analyst for TransactCloud and Pelican.
 TransactCloud: Singapore FX/CFD broker infrastructure — FIX bridging, CRM, MAM/copy trading ops.
-Pelican: FCA-regulated copy trading platform. Clients include IC Markets, Pepperstone, Deriv, Vantage, 58+ brokers. Expanding in Southeast Asia against competitor Brokeree.
+Pelican: FCA-regulated copy trading platform. Clients include IC Markets, Pepperstone, Deriv, Vantage, 58+ brokers. Expanding in Southeast Asia AND Greater China (HK, TW, CN) against competitor Brokeree.
 
 Analyse this contact's BD potential and return ONLY a JSON object (no markdown, no explanation):
 {"score":7,"tier":"warm","category":"broker","summary":"2-3 sentence analysis of who they are and the opportunity","next_action":"Single most important next step","tags":["tag1","tag2","tag3"],"pelican_fit":"yes","tc_fit":"maybe","urgency":"this week"}
@@ -670,10 +706,13 @@ Notes: ${notes||'none'}`;
 
   const urgIcon = result.urgency==='this week'?'🔴':result.urgency==='this month'?'🟡':'🔵';
   const urgTxt  = result.urgency==='this week'?'Follow up this week':result.urgency==='this month'?'Follow up this month':'Low urgency';
+  const followupVal = document.getElementById('f_followup')?.value || '';
+  const followupDisplay = followupVal ? ` · Follow up: ${new Date(followupVal).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})}` : '';
   document.getElementById('analysisBody').innerHTML =
-    `<span style="font-family:monospace;font-size:11px;color:var(--muted)">${urgIcon} ${urgTxt}</span><br><br>` +
-    (result.company_overview ? `<div style="background:var(--surface3);border-radius:8px;padding:10px 12px;margin-bottom:10px"><span style="font-family:monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)">Company</span><br><span style="font-size:12px;color:var(--muted);line-height:1.6">${result.company_overview}</span></div>` : '') +
-    (result.opportunity ? `<div style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:10px 12px;margin-bottom:10px"><span style="font-family:monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Opportunity</span><br><span style="font-size:12px;color:var(--text);line-height:1.6">${result.opportunity}</span></div>` : '') +
+    `<span style="font-family:monospace;font-size:11px;color:var(--muted)">${urgIcon} ${urgTxt}${followupDisplay}</span><br><br>` +
+    (result.company_overview ? `<div style="background:var(--surface3);border-radius:8px;padding:10px 12px;margin-bottom:8px"><span style="font-family:monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)">Company</span><br><span style="font-size:12px;color:var(--muted);line-height:1.6">${result.company_overview}</span></div>` : '') +
+    (result.china_hk_angle && result.china_hk_angle !== 'none' ? `<div style="background:var(--red-dim);border:1px solid rgba(224,92,92,.25);border-radius:8px;padding:10px 12px;margin-bottom:8px"><span style="font-family:monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--red)">🇭🇰 China/HK Angle</span><br><span style="font-size:12px;color:var(--text);line-height:1.6">${result.china_hk_angle}</span></div>` : '') +
+    (result.opportunity ? `<div style="background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:10px 12px;margin-bottom:8px"><span style="font-family:monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Opportunity</span><br><span style="font-size:12px;color:var(--text);line-height:1.6">${result.opportunity}</span></div>` : '') +
     `<strong style="color:var(--text)">Next: ${result.next_action}</strong><br><br>` +
     `<span style="color:var(--muted)">${result.summary}</span>`;
 
@@ -741,8 +780,8 @@ function saveContact() {
 // ── EXCEL EXPORT ───────────────────────────────────────────────
 function exportExcel() {
   if(!contacts.length){alert('No contacts to export yet');return;}
-  const headers=['First Name','Last Name','Company','Job Title','Email','Phone','Website','LinkedIn','Score','Tier','Category','Pelican Fit','TC Fit','Urgency','Next Action','AI Summary','Met At','Notes','Date Added','Added By'];
-  const rows=contacts.map(c=>[c.fname||'',c.lname||'',c.company||'',c.title||'',c.email||'',c.phone||'',c.website||'',c.linkedin||'',c.score||'',c.tier||'',c.category||'',c.pelican_fit||'',c.tc_fit||'',c.urgency||'',c.next_action||'',c.summary||'',c.source||'',c.notes||'',c.savedAt||'',c.addedBy||'']);
+  const headers=['First Name','Last Name','Company','Job Title','Email','Phone','Website','LinkedIn','Score','Tier','Category','Pelican Fit','TC Fit','Crypto','Mandarin','Urgency','Follow Up Date','Current Provider','Referred By','Next Action','AI Summary','China/HK Angle','Opportunity','Met At','Language','Notes','Date Added','Added By'];
+  const rows=contacts.map(c=>[c.fname||'',c.lname||'',c.company||'',c.title||'',c.email||'',c.phone||'',c.website||'',c.linkedin||'',c.score||'',c.tier||'',c.category||'',c.pelican_fit||'',c.tc_fit||'',c.crypto_relevance||'',c.mandarin_followup||'',c.urgency||'',c.followup||'',c.competitor||'',c.referredby||'',c.next_action||'',c.summary||'',c.china_hk_angle||'',c.opportunity||'',c.source||'',c.language||'',c.notes||'',c.savedAt||'',c.addedBy||'']);
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.aoa_to_sheet([headers,...rows]);
   ws['!cols']=[{wch:12},{wch:12},{wch:22},{wch:26},{wch:26},{wch:14},{wch:22},{wch:7},{wch:7},{wch:10},{wch:12},{wch:8},{wch:14},{wch:36},{wch:50},{wch:12},{wch:30},{wch:12}];
@@ -791,6 +830,10 @@ function renderContacts(search=''){
         ${c.website?`<p>🔗 ${c.website}</p>`:''}
         ${c.linkedin?`<p><a href="${c.linkedin}" target="_blank" style="color:#0a66c2;font-size:12px">💼 LinkedIn Profile</a></p>`:''}
         ${c.notes?`<p style="color:var(--dim);margin-top:4px">Notes: ${c.notes}</p>`:''}
+        ${c.competitor?`<p style="color:var(--red);font-size:12px">⚔ Uses: ${c.competitor}</p>`:''}
+        ${c.referredby?`<p style="font-size:12px;color:var(--muted)">👤 Via: ${c.referredby}</p>`:''}
+        ${c.followup?`<p style="font-size:12px;color:var(--amber)">📅 Follow up: ${c.followup}</p>`:''}
+        ${c.language&&c.language!=='English'?`<p style="font-size:12px;color:var(--muted)">🗣 ${c.language}</p>`:''}
         <button class="del-btn" onclick="deleteContact(event,'${c.id}')">Delete</button>
       </div>
     </div>`).join('');
