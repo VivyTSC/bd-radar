@@ -662,18 +662,32 @@ async function runAnalysis(ext) {
   const prompt = `You are a BD analyst for TransactCloud and Pelican.
 TransactCloud: Singapore FX/CFD broker infrastructure — FIX bridging, CRM, MAM/copy trading ops.
 Pelican: FCA-regulated copy trading platform. Clients include IC Markets, Pepperstone, Deriv, Vantage, 58+ brokers. Expanding in Southeast Asia AND Greater China (HK, TW, CN) against competitor Brokeree.
+We are also actively looking for CRM providers (e.g. FXBO, UpTrader, B2Core, Skale) for technology integration partnerships — Pelican integrating into their CRM referral pipeline is a key growth strategy. A CRM that refers brokers to Pelican instead of Brokeree is a high-value partnership.
 
-Analyse this contact's BD potential and return ONLY a JSON object (no markdown, no explanation):
-{"score":7,"tier":"warm","category":"broker","summary":"2-3 sentence analysis of who they are and the opportunity","next_action":"Single most important next step","tags":["tag1","tag2","tag3"],"pelican_fit":"yes","tc_fit":"maybe","urgency":"this week"}
+STEP 1: Search the web for "${company}" to understand what the company does, their size, products, and relevance to FX/CFD brokerage or copy trading. Pay attention to:
+- Whether they are a CRM/back-office provider for FX brokers — high-value integration partner
+- China/HK/Taiwan market presence
+- Crypto or digital asset products
+- Current copy trading offerings
+- Regulatory status
+
+STEP 2: Return ONLY a JSON object (no markdown, no explanation):
+{"score":7,"tier":"warm","category":"broker","company_overview":"2-3 sentences about what the company does","opportunity":"Specific opportunity for Pelican or TransactCloud — if CRM, mention integration into their referral pipeline","china_hk_angle":"Brief note on China/HK/Taiwan angle or none","crypto_relevance":"yes/maybe/no","mandarin_followup":"yes/no","summary":"2-3 sentence analysis of this contact and why they matter","next_action":"Single most important next step","tags":["tag1","tag2","tag3"],"pelican_fit":"yes","tc_fit":"maybe","urgency":"this week"}
 
 Rules:
 - tier: hot (score 8-10) | warm (5-7) | cold (1-4)
-- category: broker | tech | lp | crm | media | other
-- pelican_fit / tc_fit: yes | maybe | no
+- category: broker | tech | lp | crm | media | institutional | prime | other
+- pelican_fit / tc_fit / crypto_relevance: yes | maybe | no
+- mandarin_followup: yes | no
 - urgency: this week | this month | low
+- Score 8-10 if broker OR CRM provider with FX broker clients
+- Score higher if company has SEA, HK, TW, or CN presence
+- If CRM: opportunity field must mention Pelican integration into their referral pipeline
+${competitor ? "- Known competitor in use: " + competitor : ""}
 
 Contact: ${fname} ${lname} | ${company} | ${title}
 Met at: ${currentSource}
+Primary language: ${language}
 Notes: ${notes||'none'}`;
 
   setStatus('Researching ' + company + '...');
