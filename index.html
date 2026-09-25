@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>BD Contact Radar</title>
+<title>BD Radar · Rayn Lim</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -358,7 +358,7 @@ textarea.finput{resize:vertical;min-height:52px}
 <div class="key-overlay" id="keyOverlay" style="display:none">
   <div class="key-card">
     <div class="key-title">BD Contact <span>Radar</span></div>
-    <div class="key-sub">A free Gemini API key is needed to power the AI scanning. Takes 2 minutes to set up.</div>
+    <div class="key-sub">Hi Rayn! A free Gemini API key is needed to power the AI scanning. Takes 2 minutes to set up.</div>
     <div class="key-steps">
       <b>1.</b> Go to <b>aistudio.google.com</b><br>
       <b>2.</b> Sign in with your Google account<br>
@@ -374,7 +374,7 @@ textarea.finput{resize:vertical;min-height:52px}
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
 // Gemini key stored in localStorage — never in source code
-let GEMINI_KEY = localStorage.getItem('bd_gemini_key') || '';
+let GEMINI_KEY = localStorage.getItem('bd_gemini_key_rayn') || '';
 let GEMINI_URL = GEMINI_KEY ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_KEY : '';
 const GS_URL     = 'https://script.google.com/macros/s/AKfycbz5Utv1oCi1EuX9r1opMP4iEHFOv6LPO5wR2EDSJjDQrpjCE3RIdN2_AygFoFRc4wqW/exec';
 
@@ -388,13 +388,13 @@ let imgMime = 'image/jpeg';
 
 // ── STORAGE ────────────────────────────────────────────────────
 function loadContacts() {
-  try { contacts = JSON.parse(localStorage.getItem('bd_contacts_v4') || '[]'); } catch { contacts = []; }
+  try { contacts = JSON.parse(localStorage.getItem('bd_contacts_rayn') || '[]'); } catch { contacts = []; }
   updateBadge();
   renderContacts();
 }
 
 function saveLocal() {
-  localStorage.setItem('bd_contacts_v4', JSON.stringify(contacts));
+  localStorage.setItem('bd_contacts_rayn', JSON.stringify(contacts));
 }
 
 function sheetBackup(contact) {
@@ -403,7 +403,7 @@ function sheetBackup(contact) {
   try {
     const payload = {
       action:      'save',
-      sheetTab:    contact.sheetTab   || 'Vivienne',
+      sheetTab:    contact.sheetTab   || 'Rayn Lim',
       fname:       contact.fname       || '',
       lname:       contact.lname       || '',
       company:     contact.company     || '',
@@ -703,7 +703,7 @@ Notes: ${notes||'none'}`;
     phone: document.getElementById('e_phone').value,
     website: document.getElementById('e_web').value,
     linkedin: (document.getElementById('e_linkedin') || {value:''}).value,
-    sheetTab: 'Vivienne',
+    sheetTab: 'Rayn Lim',
     source: currentSource,
     notes: document.getElementById('f_notes').value.trim(),
     addedBy: currentUser,
@@ -896,7 +896,7 @@ function renderSummary(){
 
 // ── API KEY MANAGEMENT ────────────────────────────────────────
 function checkKey() {
-  GEMINI_KEY = localStorage.getItem('bd_gemini_key') || '';
+  GEMINI_KEY = localStorage.getItem('bd_gemini_key_rayn') || '';
   if (!GEMINI_KEY) {
     document.getElementById('keyOverlay').style.display = 'flex';
     return false;
@@ -911,7 +911,7 @@ function saveKey() {
     alert('Please enter a valid Gemini API key (starts with AIza...)');
     return;
   }
-  localStorage.setItem('bd_gemini_key', key);
+  localStorage.setItem('bd_gemini_key_rayn', key);
   GEMINI_KEY = key;
   GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_KEY;
   document.getElementById('keyOverlay').style.display = 'none';
@@ -919,7 +919,7 @@ function saveKey() {
 }
 
 function changeKey() {
-  localStorage.removeItem('bd_gemini_key');
+  localStorage.removeItem('bd_gemini_key_rayn');
   GEMINI_KEY = '';
   GEMINI_URL = '';
   document.getElementById('keyInput').value = '';
@@ -928,19 +928,8 @@ function changeKey() {
 
 // ── INIT ───────────────────────────────────────────────────────
 // Get or set user name on first open
-let currentUser = localStorage.getItem('bd_user_name') || '';
-if (!currentUser) {
-  const name = prompt('Welcome to BD Contact Radar!\n\nEnter your name (e.g. Vivienne, Wong, Kierren):');
-  if (name && name.trim()) {
-    currentUser = name.trim();
-    localStorage.setItem('bd_user_name', currentUser);
-  } else {
-    currentUser = 'Unknown';
-    localStorage.setItem('bd_user_name', currentUser);
-  }
-}
-// Show current user in sync bar
-document.getElementById('syncTxt').textContent = 'Ready · ' + currentUser + ' · Gemini AI · Sheets backup active';
+const currentUser = 'Rayn Lim';
+document.getElementById('syncTxt').textContent = 'Ready · Rayn Lim · Gemini AI · Sheets backup active';
 checkKey();
 loadContacts();
 </script>
