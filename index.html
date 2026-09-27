@@ -463,7 +463,7 @@ function parseJSON(text) {
   const g  = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*"([^"]*)"`, 'i')); return m?m[1]:''; };
   const gn = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*(\\d+)`, 'i')); return m?parseInt(m[1]):5; };
   const ga = k => { const m=c.match(new RegExp(`"${k}"\\s*:\\s*\\[([^\\]]+)\\]`, 'i')); if(!m) return []; return m[1].match(/"([^"]+)"/g)?.map(x=>x.replace(/"/g,''))||[]; };
-  return {fname:g('fname'),lname:g('lname'),company:g('company'),title:g('title'),email:g('email'),phone:g('phone'),website:g('website'),score:gn('score'),tier:g('tier')||'warm',category:g('category')||'other',company_overview:g('company_overview')||'',opportunity:g('opportunity')||'',china_hk_angle:g('china_hk_angle')||'',crypto_relevance:g('crypto_relevance')||'no',mandarin_followup:g('mandarin_followup')||'no',summary:g('summary')||'',next_action:g('next_action')||'Follow up',tags:ga('tags'),pelican_fit:g('pelican_fit')||'maybe',tc_fit:g('tc_fit')||'maybe',urgency:g('urgency')||'this month'};
+  return {score:gn('score'),tier:g('tier')||'warm',category:g('category')||'other',company_overview:g('company_overview')||'',opportunity:g('opportunity')||'',china_hk_angle:g('china_hk_angle')||'',crypto_relevance:g('crypto_relevance')||'no',mandarin_followup:g('mandarin_followup')||'no',summary:g('summary')||'',next_action:g('next_action')||'Follow up',tags:ga('tags'),pelican_fit:g('pelican_fit')||'maybe',tc_fit:g('tc_fit')||'maybe',urgency:g('urgency')||'this month'};
 }
 
 // Standard Gemini call (for image extraction — no search needed)
